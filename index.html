@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Swar — Audio Text Reader</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="swar.css">
+
+</head>
+<body>
+
+<div class="app">
+  <header>
+    <div class="logo">SWAR</div>
+    <div class="tagline">Audio Text Reader</div>
+  </header>
+
+  <div class="card">
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <!-- Text Input -->
+    <div class="text-section">
+      <div class="section-label">Input Text</div>
+      <textarea id="inputText" placeholder="Paste or type any text here to listen to it..." rows="6">The human voice is the most perfect instrument of all. In literature and science, words carry the weight of civilizations, the dreams of individuals, and the logic of worlds yet unmapped. Press play and let Swar speak to you.</textarea>
+    </div>
+
+    <!-- Quick text samples -->
+    <div class="quick-text-btns">
+      <div class="chip" onclick="loadSample('quote')">Famous Quote</div>
+      <div class="chip" onclick="loadSample('science')">Science Fact</div>
+      <div class="chip" onclick="loadSample('poem')">Poetry</div>
+      <div class="chip" onclick="clearText()">Clear</div>
+    </div>
+
+    <!-- Reading Display -->
+    <div class="reading-display" id="readingDisplay">
+      <div class="reading-text" id="readingText">
+        <span style="color: var(--muted); font-family: 'DM Mono', monospace; font-size: 0.8rem; letter-spacing: 0.1em;">Press PLAY to begin reading...</span>
+      </div>
+      <div class="waveform" id="waveform">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls-section">
+      <div class="controls-left">
+        <button class="btn btn-primary" id="playBtn" onclick="togglePlay()">▶ Play</button>
+        <button class="btn btn-secondary" id="pauseBtn" onclick="pauseReading()" disabled>⏸ Pause</button>
+        <button class="btn btn-danger" onclick="stopReading()">■ Stop</button>
+        <button class="btn btn-secondary" onclick="rewind()">↺ Restart</button>
+      </div>
+    </div>
+
+    <!-- Settings -->
+    <div class="settings-section">
+      <div class="setting-group">
+        <div class="setting-label">
+          Rate <span class="setting-value" id="rateVal">1.0×</span>
+        </div>
+        <input type="range" id="rateSlider" min="0.5" max="2" step="0.1" value="1"
+          oninput="updateRate(this.value)">
+      </div>
+      <div class="setting-group">
+        <div class="setting-label">
+          Pitch <span class="setting-value" id="pitchVal">1.0</span>
+        </div>
+        <input type="range" id="pitchSlider" min="0.5" max="2" step="0.1" value="1"
+          oninput="updatePitch(this.value)">
+      </div>
+      <div class="setting-group">
+        <div class="setting-label">
+          Volume <span class="setting-value" id="volVal">100%</span>
+        </div>
+        <input type="range" id="volSlider" min="0" max="1" step="0.05" value="1"
+          oninput="updateVol(this.value)">
+      </div>
+      <div class="setting-group">
+        <div class="setting-label">Voice</div>
+        <select id="voiceSelect" onchange="voiceChanged()"></select>
+      </div>
+    </div>
+
+    <div class="status-bar">
+      <div>
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">Ready</span>
+      </div>
+      <div id="wordCount">0 words</div>
+    </div>
+
+    <!-- Download Section -->
+    <div class="download-section">
+      <div class="download-label">Export Audio</div>
+      <button class="btn btn-record" id="recordBtn" onclick="toggleRecord()">
+        <span class="rec-dot"></span> Record
+      </button>
+      <button class="btn btn-download" id="downloadBtn" onclick="downloadAudio()" disabled>
+        ↓ Download WAV
+      </button>
+      <div class="download-info" id="downloadInfo">
+        Record speech to<br>generate a WAV file
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="swar.js"></script>
+</body>
+</html>
